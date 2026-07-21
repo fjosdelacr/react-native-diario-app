@@ -1,5 +1,5 @@
-import { PostListScreen } from "@/modules/Posts/screens/PostList.screen";
+import { Redirect } from "expo-router";
 
-export default function HomeTab() {
-  return <PostListScreen />;
+export default function Index() {
+  return <Redirect href="/posts" />;
 }

@@ -18,6 +18,7 @@ export const Background: FC<BackgroundProps> = ({ children }) => {
         {
           backgroundColor: palette.colors.background,
           paddingTop: insets.top,
+          paddingBottom: insets.bottom,
         },
       ]}
     >

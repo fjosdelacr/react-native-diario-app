@@ -1,22 +1,25 @@
 import { ICON_SIZES } from "@/utils/constants.util";
 import { Icon } from "@expo/vector-icons/build/createIconSet";
-import { Pressable, StyleSheet } from "react-native";
+import { Pressable, PressableProps, StyleSheet } from "react-native";
 import { useThemeContext } from "../contexts/theme.context";
 
-interface IconButtonProps<G extends string, FN extends string> {
+interface IconButtonProps<
+  G extends string,
+  FN extends string,
+> extends PressableProps {
   icon: Icon<G, FN>;
   name: G;
   size?: "sm" | "md" | "lg";
   color?: "primary" | "success" | "error";
-  onPress?: VoidFunction;
 }
 
 export const IconButton = <G extends string, FN extends string>({
-  icon: IconComponent,
   name,
-  onPress,
+  style,
   size = "md",
   color = "primary",
+  icon: IconComponent,
+  ...pressableProps
 }: IconButtonProps<G, FN>) => {
   const { palette } = useThemeContext();
   const iconColor = {
@@ -26,13 +29,14 @@ export const IconButton = <G extends string, FN extends string>({
   };
   return (
     <Pressable
-      style={({ pressed }) => [
+      style={(state) => [
+        typeof style === "function" ? style(state) : style,
         styles.container,
         {
-          backgroundColor: pressed ? palette.colors.overlay : undefined,
+          backgroundColor: state.pressed ? palette.colors.overlay : undefined,
         },
       ]}
-      onPress={onPress}
+      {...pressableProps}
     >
       <IconComponent
         name={name}

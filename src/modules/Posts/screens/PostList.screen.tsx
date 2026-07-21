@@ -2,18 +2,25 @@ import { FlatList } from "react-native";
 import { Background } from "@/core/components/Background.component";
 import { PostCard } from "../components/PostCard.component";
 import { PostHeader } from "../components/PostHeader.component";
-import { useTabBarHeight } from "@/core/hooks/useTabBarHeight.hook";
+import { usePostList } from "../hooks/usePostList.hook";
 
 export const PostListScreen = () => {
-  const { bottomOffset } = useTabBarHeight();
+  const { handleAddPress, handleDelete, handleEdit } = usePostList();
 
   const renderItem = ({ item }: any) => {
-    return <PostCard title={item.title} description={item.description} />;
+    return (
+      <PostCard
+        title={item.title}
+        description={item.description}
+        onEdit={() => handleEdit(item.id)}
+        onDelete={() => handleDelete(item.id)}
+      />
+    );
   };
 
   return (
     <Background>
-      <PostHeader title="Mi Lista" />
+      <PostHeader title="Mi Lista" onAddPress={handleAddPress} />
       <FlatList
         data={[
           { id: 1, title: "Título 1", description: "Descripción 1" },
@@ -24,7 +31,7 @@ export const PostListScreen = () => {
           { id: 6, title: "Título 6", description: "Descripción 6" },
         ]}
         renderItem={renderItem}
-        contentContainerStyle={{ gap: 20, paddingBottom: bottomOffset + 20 }}
+        contentContainerStyle={{ gap: 20 }}
         showsVerticalScrollIndicator={false}
       />
     </Background>

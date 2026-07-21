@@ -8,9 +8,16 @@ import { IconButton } from "@/core/components/IconButton.component";
 interface PostCardProps {
   title: string;
   description?: string;
+  onEdit: VoidFunction;
+  onDelete: VoidFunction;
 }
 
-export const PostCard: FC<PostCardProps> = ({ title, description }) => {
+export const PostCard: FC<PostCardProps> = ({
+  title,
+  description,
+  onEdit,
+  onDelete,
+}) => {
   const { palette } = useThemeContext();
   return (
     <View
@@ -27,11 +34,17 @@ export const PostCard: FC<PostCardProps> = ({ title, description }) => {
           {title}
         </Text>
         <View style={styles.actions}>
-          <IconButton icon={Feather} name="edit-3" color="primary" />
+          <IconButton
+            icon={Feather}
+            name="edit-3"
+            color="primary"
+            onPress={onEdit}
+          />
           <IconButton
             icon={MaterialIcons}
             name="delete-outline"
             color="error"
+            onPress={onDelete}
           />
         </View>
       </View>
