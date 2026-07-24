@@ -1,7 +1,12 @@
 import { useRouter } from "expo-router";
+import { useState } from "react";
 
 export const usePostList = () => {
+  const [isVisibleModal, setIsVisibleModal] = useState(false);
   const router = useRouter();
+
+  const hiddenModal = () => setIsVisibleModal(false);
+  const showModal = () => setIsVisibleModal(true);
 
   const handleAddPress = () => {
     router.push("/posts/new");
@@ -12,8 +17,20 @@ export const usePostList = () => {
   };
 
   const handleDelete = (id: string) => {
-    console.log("Deleting post with id:", id);
+    showModal();
   };
 
-  return { handleAddPress, handleEdit, handleDelete };
+  const confirmDelete = () => {
+    console.log("Deleting post with id:");
+    hiddenModal();
+  };
+
+  return {
+    handleAddPress,
+    handleEdit,
+    handleDelete,
+    isVisibleModal,
+    confirmDelete,
+    hiddenModal,
+  };
 };

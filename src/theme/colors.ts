@@ -15,7 +15,7 @@ export const darkColor = {
   surface: "#181C25",
   surfaceSecondary: "#232937",
 
-  border: "#313849",
+  border: "#e4e6ebff",
   divider: "#3F475A",
 
   success: "#4ADE80",
@@ -43,7 +43,7 @@ export const lightColor = {
   surface: "#FFFFFF",
   surfaceSecondary: "#F2F4F8",
 
-  border: "#E2E8F0",
+  border: "#b8babeff",
   divider: "#CBD5E1",
 
   success: "#22C55E",
