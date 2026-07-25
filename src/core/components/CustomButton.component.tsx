@@ -43,8 +43,11 @@ export const CustomButton: FC<CustomButtonProps> = ({
       style={({ pressed }) => [
         styles.container,
         {
-          backgroundColor:
-            variant === "filled" ? getColor(pressed)[color] : undefined,
+          backgroundColor: props.disabled
+            ? palette.colors.border
+            : variant === "filled"
+              ? getColor(pressed)[color]
+              : undefined,
         },
         { ...(variant === "outlined" ? getOutlinedStyle(pressed) : undefined) },
       ]}

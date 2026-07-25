@@ -13,4 +13,22 @@ export class PostRepositoryImpl implements PostRepository {
       throw error;
     }
   }
+
+  async createPost(post: PostEntity) {
+    try {
+      const response = await this.postRemoteDataSource.createPost(post);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async updatePost(post: PostEntity) {
+    try {
+      const response = await this.postRemoteDataSource.updatePost(post);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
 }

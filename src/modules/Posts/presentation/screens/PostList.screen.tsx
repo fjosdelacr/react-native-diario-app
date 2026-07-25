@@ -29,7 +29,7 @@ export const PostListScreen = () => {
       <PostCard
         title={item.title}
         message={item.message}
-        onEdit={() => handleEdit(item.id?.toString() ?? "")}
+        onEdit={() => handleEdit(item)}
         onDelete={() => handleDelete(item.id?.toString() ?? "")}
       />
     );

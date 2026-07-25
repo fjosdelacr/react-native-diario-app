@@ -1,6 +1,5 @@
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { PostRepositoryImpl } from "../../data/repositories/post.repository.impl";
 import { getPostUseCase } from "../../di/post.dependencies";
 import { PostEntity } from "../../domain/entities/post.entity";
 
@@ -28,8 +27,16 @@ export const usePostList = () => {
     router.push("/posts/new");
   };
 
-  const handleEdit = (id: string) => {
-    router.push(`/posts/${id}`);
+  const handleEdit = (post: PostEntity) => {
+    router.push({
+      pathname: `/posts/[id]`,
+      params: {
+        id: post.id,
+        title: post.title,
+        message: post.message,
+        userId: post.userId,
+      },
+    });
   };
 
   const handleDelete = (id: string) => {

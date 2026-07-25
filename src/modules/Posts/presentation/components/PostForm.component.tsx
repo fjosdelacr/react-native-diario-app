@@ -1,5 +1,6 @@
 import { CustomButton } from "@/core/components/CustomButton.component";
 import { InputField } from "@/core/components/InputField.components";
+import { FC } from "react";
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -10,7 +11,25 @@ import {
   View,
 } from "react-native";
 
-export const PostForm = () => {
+interface PostFormProps {
+  title?: string;
+  message?: string;
+  onPost: () => void;
+  disabled?: boolean;
+  loading?: boolean;
+  onChangeTitle: (title: string) => void;
+  onChangeMessage: (message: string) => void;
+}
+
+export const PostForm: FC<PostFormProps> = ({
+  title,
+  onPost,
+  message,
+  loading,
+  disabled,
+  onChangeTitle,
+  onChangeMessage,
+}) => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -23,8 +42,15 @@ export const PostForm = () => {
           showsVerticalScrollIndicator={false}
         >
           <View style={styles.formContainer}>
-            <InputField label="Título" placeholder="Escribe un título" />
             <InputField
+              onChangeText={onChangeTitle}
+              value={title}
+              label="Título"
+              placeholder="Escribe un título"
+            />
+            <InputField
+              value={message}
+              onChangeText={onChangeMessage}
               label="Mensaje"
               placeholder="¿Qué está pasando?"
               multiline
@@ -33,7 +59,11 @@ export const PostForm = () => {
             />
           </View>
           <View style={{ marginTop: 20 }}>
-            <CustomButton title="Publicar" />
+            <CustomButton
+              title={loading ? "Cargando..." : "Publicar"}
+              onPress={onPost}
+              disabled={disabled}
+            />
           </View>
         </ScrollView>
       </TouchableWithoutFeedback>

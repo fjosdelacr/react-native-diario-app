@@ -13,6 +13,10 @@ export class PostModel implements PostEntity {
     return new PostModel(dto.userId, dto.title, dto.body, dto.id);
   }
 
+  static fromEntity(post: PostEntity): PostModel {
+    return new PostModel(post.userId, post.title, post.message, post.id);
+  }
+
   toDTO(): PostDtoResponse {
     return {
       userId: this.userId,
