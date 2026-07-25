@@ -1,6 +1,6 @@
 import { createContext, FC, ReactNode, useContext } from "react";
 import { StatusBar } from "expo-status-bar";
-import { ThemeType } from "../../types/theme.type";
+import { ThemeType } from "../types/theme.type";
 import { useTheme } from "../hooks/useTheme.hook";
 
 type ThemeContextType = {

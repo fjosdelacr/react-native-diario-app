@@ -7,14 +7,14 @@ import { IconButton } from "@/core/components/IconButton.component";
 
 interface PostCardProps {
   title: string;
-  description?: string;
+  message?: string;
   onEdit: VoidFunction;
   onDelete: VoidFunction;
 }
 
 export const PostCard: FC<PostCardProps> = ({
   title,
-  description,
+  message,
   onEdit,
   onDelete,
 }) => {
@@ -30,7 +30,10 @@ export const PostCard: FC<PostCardProps> = ({
       ]}
     >
       <View style={styles.header}>
-        <Text style={[styles.title, { color: palette.texts.primary }]}>
+        <Text
+          numberOfLines={1}
+          style={[styles.title, { color: palette.texts.primary }]}
+        >
           {title}
         </Text>
         <View style={styles.actions}>
@@ -48,8 +51,11 @@ export const PostCard: FC<PostCardProps> = ({
           />
         </View>
       </View>
-      <Text style={[styles.description, { color: palette.texts.secondary }]}>
-        {description}
+      <Text
+        numberOfLines={4}
+        style={[styles.description, { color: palette.texts.secondary }]}
+      >
+        {message}
       </Text>
     </View>
   );
@@ -71,10 +77,12 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   title: {
+    maxWidth: 150,
     fontSize: 20,
     fontWeight: "bold",
   },
   description: {
     fontSize: 14,
+    textAlign: "justify",
   },
 });

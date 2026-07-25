@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Palette } from "../../theme/palette";
+import { Palette } from "@/config/theme/palette";
 
 export const useTheme = () => {
   const [theme, setTheme] = useState<"light" | "dark">("light");

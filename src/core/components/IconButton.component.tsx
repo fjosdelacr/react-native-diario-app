@@ -1,4 +1,4 @@
-import { ICON_SIZES } from "@/utils/constants.util";
+import { ICON_SIZES } from "@/core/utils/constants.util";
 import { Icon } from "@expo/vector-icons/build/createIconSet";
 import { Pressable, PressableProps, StyleSheet } from "react-native";
 import { useThemeContext } from "../contexts/theme.context";

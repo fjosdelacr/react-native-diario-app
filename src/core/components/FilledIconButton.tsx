@@ -5,7 +5,7 @@ import {
   TouchableOpacityProps,
 } from "react-native";
 import { useThemeContext } from "../contexts/theme.context";
-import { ICON_CONTAINER_SIZES, ICON_SIZES } from "@/utils/constants.util";
+import { ICON_CONTAINER_SIZES, ICON_SIZES } from "@/core/utils/constants.util";
 
 interface FilledIconButtonProps<
   G extends string,

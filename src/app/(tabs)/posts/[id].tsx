@@ -1,4 +1,4 @@
-import { EditPostScreen } from "@/modules/Posts/screens/EditPost.screen";
+import { EditPostScreen } from "@/modules/Posts/presentation/screens/EditPost.screen";
 
 export default function Edit() {
   return <EditPostScreen />;

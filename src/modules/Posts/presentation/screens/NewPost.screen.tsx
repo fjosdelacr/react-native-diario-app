@@ -1,7 +1,6 @@
-import { Background } from "@/core/components/Background.component";
 import { PostFormHeader } from "../components/PostFormHeader.component";
-import { InputField } from "@/core/components/InputField.components";
 import { PostForm } from "../components/PostForm.component";
+import { Background } from "@/core/components/Background.component";
 
 export const NewPostScreen = () => {
   return (

@@ -1,12 +1,20 @@
-import { FlatList } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  ListRenderItemInfo,
+  View,
+} from "react-native";
 import { Background } from "@/core/components/Background.component";
 import { PostCard } from "../components/PostCard.component";
 import { PostHeader } from "../components/PostHeader.component";
 import { usePostList } from "../hooks/usePostList.hook";
 import { CustomModal } from "@/core/components/CustomModal.component";
+import { useThemeContext } from "@/core/contexts/theme.context";
+import { PostEntity } from "../../domain/entities/post.entity";
 
 export const PostListScreen = () => {
   const {
+    dataStates,
     handleAddPress,
     handleDelete,
     handleEdit,
@@ -14,31 +22,36 @@ export const PostListScreen = () => {
     confirmDelete,
     hiddenModal,
   } = usePostList();
+  const { palette } = useThemeContext();
 
-  const renderItem = ({ item }: any) => {
+  const renderItem = ({ item }: ListRenderItemInfo<PostEntity>) => {
     return (
       <PostCard
         title={item.title}
-        description={item.description}
-        onEdit={() => handleEdit(item.id)}
-        onDelete={() => handleDelete(item.id)}
+        message={item.message}
+        onEdit={() => handleEdit(item.id?.toString() ?? "")}
+        onDelete={() => handleDelete(item.id?.toString() ?? "")}
       />
     );
   };
+
+  if (dataStates.isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator
+          size={"large"}
+          color={palette.colors.primary.default}
+        />
+      </View>
+    );
+  }
 
   return (
     <>
       <Background>
         <PostHeader title="Mi Lista" onAddPress={handleAddPress} />
         <FlatList
-          data={[
-            { id: 1, title: "Título 1", description: "Descripción 1" },
-            { id: 2, title: "Título 2", description: "Descripción 2" },
-            { id: 3, title: "Título 3", description: "Descripción 3" },
-            { id: 4, title: "Título 4", description: "Descripción 4" },
-            { id: 5, title: "Título 5", description: "Descripción 5" },
-            { id: 6, title: "Título 6", description: "Descripción 6" },
-          ]}
+          data={dataStates.data}
           renderItem={renderItem}
           contentContainerStyle={{ gap: 20 }}
           showsVerticalScrollIndicator={false}
