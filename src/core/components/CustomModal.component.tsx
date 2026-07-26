@@ -61,7 +61,7 @@ export const CustomModal = ({
             />
             <CustomButton
               color="primary"
-              title={cancelText}
+              title={confirmText}
               onPress={onConfirm}
               disabled={loading}
             />

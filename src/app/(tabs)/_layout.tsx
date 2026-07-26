@@ -5,7 +5,7 @@ export default function TabsLayout() {
   return (
     <Tabs>
       <Tabs.Screen
-        name="posts"
+        name="products"
         options={{
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
