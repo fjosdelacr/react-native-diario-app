@@ -1,4 +1,4 @@
-import { Background } from "@/core/components/Background.component";
+import { BackgroundView } from "@/core/components/BackgroundView.component";
 import { ProductFormHeader } from "../components/ProductFormHeader.component";
 import { ProductForm } from "../components/ProductForm.component";
 import { useEditProduct } from "../hooks/useEditProduct.hook";
@@ -8,7 +8,7 @@ export const EditProductScreen = () => {
     useEditProduct();
 
   return (
-    <Background>
+    <BackgroundView>
       <ProductFormHeader title="Editar producto" />
       <ProductForm
         title={product.title}
@@ -19,6 +19,6 @@ export const EditProductScreen = () => {
         description={product.description}
         onChangeMessage={onChangeMessage}
       />
-    </Background>
+    </BackgroundView>
   );
 };

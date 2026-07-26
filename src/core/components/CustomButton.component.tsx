@@ -65,7 +65,6 @@ const styles = StyleSheet.create({
     padding: 16,
     justifyContent: "center",
     alignItems: "center",
-    flex: 1,
   },
   title: {
     fontWeight: "bold",

@@ -1,6 +1,6 @@
 import { ProductFormHeader } from "../components/ProductFormHeader.component";
 import { ProductForm } from "../components/ProductForm.component";
-import { Background } from "@/core/components/Background.component";
+import { BackgroundView } from "@/core/components/BackgroundView.component";
 import { useNewProduct } from "../hooks/useNewProduct.hook";
 
 export const NewProductScreen = () => {
@@ -12,7 +12,7 @@ export const NewProductScreen = () => {
     product,
   } = useNewProduct();
   return (
-    <Background>
+    <BackgroundView>
       <ProductFormHeader title="Crear producto" />
       <ProductForm
         title={product.title}
@@ -23,6 +23,6 @@ export const NewProductScreen = () => {
         description={product.description}
         onChangeMessage={onChangeDescription}
       />
-    </Background>
+    </BackgroundView>
   );
 };

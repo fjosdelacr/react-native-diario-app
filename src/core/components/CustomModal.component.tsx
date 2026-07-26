@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "flex-end",
     gap: 20,
     marginTop: 20,
   },

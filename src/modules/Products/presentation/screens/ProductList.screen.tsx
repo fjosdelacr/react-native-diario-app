@@ -4,7 +4,7 @@ import {
   ActivityIndicator,
   ListRenderItemInfo,
 } from "react-native";
-import { Background } from "@/core/components/Background.component";
+import { BackgroundView } from "@/core/components/BackgroundView.component";
 import { ProductCard } from "../components/ProductCard.component";
 import { ProductHeader } from "../components/ProductHeader.component";
 import { useProductList } from "../hooks/useProductList.hook";
@@ -48,7 +48,7 @@ export const ProductListScreen = () => {
 
   return (
     <>
-      <Background>
+      <BackgroundView>
         <ProductHeader title="Mi Lista" onAddPress={handleAddPress} />
         <FlatList
           data={dataStates.data}
@@ -56,7 +56,7 @@ export const ProductListScreen = () => {
           contentContainerStyle={{ gap: 20 }}
           showsVerticalScrollIndicator={false}
         />
-      </Background>
+      </BackgroundView>
       <CustomModal
         onCancel={hiddenModal}
         visible={isVisibleModal}

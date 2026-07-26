@@ -19,6 +19,7 @@ export const ProductCard: FC<ProductCardProps> = ({
   onDelete,
 }) => {
   const { palette } = useThemeContext();
+
   return (
     <View
       style={[

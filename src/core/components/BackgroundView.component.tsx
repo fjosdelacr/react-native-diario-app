@@ -1,13 +1,13 @@
-import { FC, ReactNode } from "react";
+import { FC } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ViewProps } from "react-native";
 import { useThemeContext } from "../contexts/theme.context";
 
-interface BackgroundProps {
-  children: ReactNode;
-}
-
-export const Background: FC<BackgroundProps> = ({ children }) => {
+export const BackgroundView: FC<ViewProps> = ({
+  children,
+  style,
+  ...props
+}) => {
   const insets = useSafeAreaInsets();
   const { palette } = useThemeContext();
 
@@ -20,7 +20,9 @@ export const Background: FC<BackgroundProps> = ({ children }) => {
           paddingTop: insets.top,
           paddingBottom: insets.bottom,
         },
+        style,
       ]}
+      {...props}
     >
       {children}
     </View>
