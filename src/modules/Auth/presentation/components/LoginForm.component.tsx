@@ -2,9 +2,24 @@ import { CustomButton } from "@/core/components/CustomButton.component";
 import { InputField } from "@/core/components/InputField.components";
 import { useThemeContext } from "@/core/contexts/theme.context";
 import { Link } from "expo-router";
+import { FC } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-export const LoginForm = () => {
+interface LoginFormProps {
+  email: string;
+  password: string;
+  onChangeEmail: (value: string) => void;
+  onChangePassword: (value: string) => void;
+  onSubmit: VoidFunction;
+}
+
+export const LoginForm: FC<LoginFormProps> = ({
+  email,
+  onChangeEmail,
+  onChangePassword,
+  password,
+  onSubmit,
+}) => {
   const { palette } = useThemeContext();
 
   return (
@@ -14,18 +29,25 @@ export const LoginForm = () => {
         Inicia sesión para continuar
       </Text>
       <View style={styles.inputGroup}>
-        <InputField label="Correo" placeholder="Ingresar correo" />
+        <InputField
+          label="Correo"
+          placeholder="Ingresar correo"
+          value={email}
+          onChangeText={onChangeEmail}
+        />
         <InputField
           label="Password"
           secureTextEntry
           placeholder="Ingresar contraseña"
+          value={password}
+          onChangeText={onChangePassword}
         />
       </View>
-      <CustomButton title="Ingresar" />
+      <CustomButton title="Ingresar" onPress={onSubmit} />
       <View style={styles.signup}>
         <Text style={styles.signupText}>No tienes una cuenta?</Text>
         <Link
-          href="/signup"
+          href="/register"
           style={[styles.link, { color: palette.texts.link }]}
         >
           Registrarse
