@@ -1,10 +1,17 @@
 import { BackgroundView } from "@/core/components/BackgroundView.component";
-import { CustomButton } from "@/core/components/CustomButton.component";
-import { InputField } from "@/core/components/InputField.components";
+import { useThemeContext } from "@/core/contexts/theme.context";
 import { openDatabaseAsync } from "expo-sqlite";
 import { useState } from "react";
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+} from "react-native";
+import { RegisterForm } from "../components/RegisterForm.component";
 
 export const RegisterScreen = () => {
+  const { palette } = useThemeContext();
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -23,19 +30,28 @@ export const RegisterScreen = () => {
   };
 
   return (
-    <BackgroundView style={{ gap: 20 }}>
-      <InputField
-        label="Correo"
-        placeholder="Ingresar correo"
-        onChangeText={(value) => handleChange("email", value)}
-      />
-      <InputField
-        label="Contraseña"
-        placeholder="Ingresar contraseña"
-        secureTextEntry
-        onChangeText={(value) => handleChange("password", value)}
-      />
-      <CustomButton title="Registrar" onPress={handleRegister} />
-    </BackgroundView>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1 }}
+    >
+      <Pressable
+        style={{
+          flex: 1,
+          backgroundColor: palette.colors.primary.light,
+          paddingTop: 150,
+        }}
+        onPress={Keyboard.dismiss}
+      >
+        <BackgroundView style={{ paddingTop: 50 }}>
+          <RegisterForm
+            email={user.email}
+            password={user.password}
+            onSubmit={handleRegister}
+            onChangeEmail={(value) => handleChange("email", value)}
+            onChangePassword={(value) => handleChange("password", value)}
+          />
+        </BackgroundView>
+      </Pressable>
+    </KeyboardAvoidingView>
   );
 };
