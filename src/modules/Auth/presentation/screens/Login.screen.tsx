@@ -1,39 +1,12 @@
-import {
-  Keyboard,
-  Platform,
-  KeyboardAvoidingView,
-  Pressable,
-} from "react-native";
+import { Keyboard, Platform, KeyboardAvoidingView, Pressable } from "react-native";
 import { LoginForm } from "../components/LoginForm.component";
 import { BackgroundView } from "@/core/components/BackgroundView.component";
 import { useThemeContext } from "@/core/contexts/theme.context";
-import { openDatabaseAsync } from "expo-sqlite";
-import { useState } from "react";
-import { useRouter } from "expo-router";
+import { useLogin } from "../hooks/useLogin.hook";
 
 export const LoginScreen = () => {
-  const router = useRouter();
   const { palette } = useThemeContext();
-  const [user, setUser] = useState({
-    email: "",
-    password: "",
-  });
-
-  const handleChange = (field: string, value: string) => {
-    setUser((prev) => ({ ...prev, [field]: value }));
-  };
-
-  const handleLogin = async () => {
-    const db = await openDatabaseAsync("store.db");
-    const userFounded = await db.getFirstAsync(
-      "SELECT * FROM users WHERE email = ? AND password = ?",
-      [user.email, user.password],
-    );
-
-    if (userFounded) {
-      router.navigate("/products");
-    }
-  };
+  const { user, handleChange, handleLogin } = useLogin();
 
   return (
     <KeyboardAvoidingView

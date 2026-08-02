@@ -1,0 +1,11 @@
+import { UserEntity } from "../entities/user.entity";
+import { AuthRepository } from "../repositories/auth.repository";
+
+export class LoginUseCase {
+  constructor(private readonly authRepository: AuthRepository) {}
+
+  async execute(email: string, password: string): Promise<UserEntity> {
+    const result = await this.authRepository.login(email, password);
+    return result;
+  }
+}
