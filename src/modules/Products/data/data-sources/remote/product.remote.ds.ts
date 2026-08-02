@@ -1,6 +1,17 @@
 import { ProductEntity } from "@/modules/Products/domain/entities/product.entity";
 import { ProductDtoResponse } from "../../dtos/product.dto";
 import { ProductModel } from "../../models/product.model";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
+import { auth, firebaseDB } from "@/config/firebase";
 
 export interface ProductRemoteDataSource {
   getProducts: () => Promise<ProductModel[]>;
@@ -10,13 +21,24 @@ export interface ProductRemoteDataSource {
 }
 
 export class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
+  private get currentUser() {
+    return auth.currentUser?.uid;
+  }
+
   async getProducts() {
     try {
-      const response = await fetch(
-        "https://6a64ba3406b3848d4b8659e8.mockapi.io/api/v1/products",
+      const q = query(
+        collection(firebaseDB, "products"),
+        where("ownerId", "==", this.currentUser),
       );
-      const json = (await response.json()) as ProductDtoResponse[];
-      return json.map((product) => ProductModel.fromDTO(product));
+      const snapshot = await getDocs(q);
+      return snapshot.docs.map((doc) => {
+        const data = doc.data() as Omit<ProductDtoResponse, "id">;
+        return ProductModel.fromDTO({
+          id: doc.id,
+          ...data,
+        });
+      });
     } catch (error) {
       throw error;
     }
@@ -26,18 +48,11 @@ export class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
     try {
       const model = ProductModel.fromEntity(product);
       const dto = model.toDTO();
-      const response = await fetch(
-        "https://6a64ba3406b3848d4b8659e8.mockapi.io/api/v1/products",
-        {
-          method: "POST",
-          body: JSON.stringify(dto),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
-      );
-      const json = (await response.json()) as ProductDtoResponse;
-      return ProductModel.fromDTO(json);
+      const docRef = await addDoc(collection(firebaseDB, "products"), {
+        ...dto,
+        ownerId: this.currentUser,
+      });
+      return new ProductModel(dto.title, dto.description, docRef.id);
     } catch (error) {
       throw error;
     }
@@ -47,33 +62,22 @@ export class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
     try {
       const model = ProductModel.fromEntity(post);
       const dto = model.toDTO();
-      const response = await fetch(
-        `https://6a64ba3406b3848d4b8659e8.mockapi.io/api/v1/products/${post.id}`,
-        {
-          method: "PUT",
-          body: JSON.stringify(dto),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
-      );
-      const json = (await response.json()) as ProductDtoResponse;
-      return ProductModel.fromDTO(json);
+      if (!post.id) {
+        throw new Error("Product ID is required");
+      }
+      const productRef = doc(firebaseDB, "products", post.id);
+      await updateDoc(productRef, { ...dto });
+      return new ProductModel(dto.title, dto.description, post.id);
     } catch (error) {
       throw error;
     }
   }
 
-  async deleteProduct(id: string) {
+  async deleteProduct(id: string): Promise<ProductModel> {
     try {
-      const response = await fetch(
-        `https://6a64ba3406b3848d4b8659e8.mockapi.io/api/v1/products/${id}`,
-        {
-          method: "DELETE",
-        },
-      );
-      const json = (await response.json()) as ProductDtoResponse;
-      return ProductModel.fromDTO(json);
+      const productRef = doc(firebaseDB, "products", id);
+      await deleteDoc(productRef);
+      return new ProductModel("", "", id);
     } catch (error) {
       throw error;
     }

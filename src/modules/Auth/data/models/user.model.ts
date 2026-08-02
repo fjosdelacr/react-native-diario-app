@@ -1,26 +1,22 @@
 import { UserEntity } from "../../domain/entities/user.entity";
-import { UserDtoLocal } from "../dtos/user.dto";
+import { UserDtoLocalResponse } from "../dtos/user.local.dto";
+import { UserRemoteDtoResponse } from "../dtos/user.remote.dto";
 
 export class UserModel implements UserEntity {
   constructor(
     public email: string,
-    public password: string,
-    public id?: number,
+    public id?: string,
   ) {}
 
-  static fromDTO(dto: UserDtoLocal): UserModel {
-    return new UserModel(dto.email, dto.password, dto.id);
+  static fromLocalDTO(dto: UserDtoLocalResponse): UserModel {
+    return new UserModel(dto.email, dto.id.toString());
+  }
+
+  static fromRemoteDTO(dto: UserRemoteDtoResponse): UserModel {
+    return new UserModel(dto.email, dto.uid);
   }
 
   static fromEntity(entity: UserEntity): UserModel {
-    return new UserModel(entity.email, entity.password, entity.id);
-  }
-
-  toDTO(): UserDtoLocal {
-    return {
-      id: this.id ?? 0,
-      email: this.email,
-      password: this.password,
-    };
+    return new UserModel(entity.email, entity.id);
   }
 }

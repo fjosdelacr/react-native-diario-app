@@ -1,8 +1,8 @@
-import { useSQLiteContext } from "expo-sqlite";
 import { useState } from "react";
 import { useRouter } from "expo-router";
-import { createAuthDependencies } from "../../di/auth.dependencies";
+import { loginUseCase } from "../../di/auth.dependencies";
 import { UserEntity } from "../../domain/entities/user.entity";
+import { Alert } from "react-native";
 
 const DATA_STATES_DEFAULT = {
   isLoading: false,
@@ -17,9 +17,7 @@ interface DataStates {
 }
 
 export const useLogin = () => {
-  const db = useSQLiteContext();
   const router = useRouter();
-  const { loginUseCase } = createAuthDependencies(db);
 
   const [user, setUser] = useState({ email: "", password: "" });
   const [dataStates, setDataStates] = useState<DataStates>(DATA_STATES_DEFAULT);
@@ -32,11 +30,13 @@ export const useLogin = () => {
     setDataStates({ ...DATA_STATES_DEFAULT, isLoading: true });
     try {
       const result = await loginUseCase.execute(user.email, user.password);
+      console.log("login", result);
       if (result) {
         setDataStates({ ...DATA_STATES_DEFAULT, data: result });
-        router.navigate("/products");
+        router.replace("/products");
       }
-    } catch (error) {
+    } catch (error: any) {
+      Alert.alert("Error", error?.message ?? "Error al iniciar sesión");
       setDataStates({ ...DATA_STATES_DEFAULT, isError: true });
     }
   };

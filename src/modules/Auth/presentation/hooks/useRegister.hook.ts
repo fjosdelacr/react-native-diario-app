@@ -1,6 +1,6 @@
-import { useSQLiteContext } from "expo-sqlite";
 import { useState } from "react";
-import { createAuthDependencies } from "../../di/auth.dependencies";
+import { useRouter } from "expo-router";
+import { registerUseCase } from "../../di/auth.dependencies";
 import { UserEntity } from "../../domain/entities/user.entity";
 
 const DATA_STATES_DEFAULT = {
@@ -16,9 +16,7 @@ interface DataStates {
 }
 
 export const useRegister = () => {
-  const db = useSQLiteContext();
-  const { registerUseCase } = createAuthDependencies(db);
-
+  const router = useRouter();
   const [user, setUser] = useState({ email: "", password: "" });
   const [dataStates, setDataStates] = useState<DataStates>(DATA_STATES_DEFAULT);
 
@@ -30,10 +28,13 @@ export const useRegister = () => {
     setDataStates({ ...DATA_STATES_DEFAULT, isLoading: true });
     try {
       const result = await registerUseCase.execute(user.email, user.password);
+      console.log("register", result);
       if (result) {
         setDataStates({ ...DATA_STATES_DEFAULT, data: result });
+        router.navigate("/");
       }
     } catch (error) {
+      console.log("register error", error);
       setDataStates({ ...DATA_STATES_DEFAULT, isError: true });
     }
   };

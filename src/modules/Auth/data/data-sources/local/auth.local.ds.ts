@@ -1,5 +1,5 @@
 import { SQLiteDatabase } from "expo-sqlite";
-import { UserDtoLocal } from "../../dtos/user.dto";
+import { UserDtoLocalResponse } from "../../dtos/user.local.dto";
 import { UserModel } from "../../models/user.model";
 
 export interface AuthLocalDataSource {
@@ -12,7 +12,7 @@ export class AuthLocalDataSourceImpl implements AuthLocalDataSource {
 
   async login(email: string, password: string): Promise<UserModel> {
     try {
-      const row = await this.db.getFirstAsync<UserDtoLocal>(
+      const row = await this.db.getFirstAsync<UserDtoLocalResponse>(
         "SELECT * FROM users WHERE email = ? AND password = ?",
         [email, password],
       );
@@ -21,7 +21,7 @@ export class AuthLocalDataSourceImpl implements AuthLocalDataSource {
         throw new Error("Credenciales incorrectas");
       }
 
-      return UserModel.fromDTO(row);
+      return UserModel.fromLocalDTO(row);
     } catch (error) {
       throw error;
     }
@@ -34,7 +34,7 @@ export class AuthLocalDataSourceImpl implements AuthLocalDataSource {
         [email, password],
       );
 
-      return new UserModel(email, password, result.lastInsertRowId);
+      return new UserModel(email, result.lastInsertRowId.toString());
     } catch (error) {
       throw error;
     }

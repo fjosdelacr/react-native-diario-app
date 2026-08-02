@@ -1,5 +1,11 @@
+import { auth } from "@/config/firebase";
 import { LoginScreen } from "@/modules/Auth/presentation/screens/Login.screen";
+import { Redirect } from "expo-router";
 
 export default function Index() {
-  return <LoginScreen />;
+  const currentUser = auth.currentUser;
+
+  console.log("currentUser", currentUser);
+
+  return currentUser ? <Redirect href="/products" /> : <LoginScreen />;
 }

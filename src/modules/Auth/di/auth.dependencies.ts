@@ -1,24 +1,19 @@
-import { SQLiteDatabase } from "expo-sqlite";
-import { AuthLocalDataSourceImpl } from "../data/data-sources/local/auth.local.ds";
+import { AuthRemoteDataSourceImpl } from "../data/data-sources/remote/auth.remote.ds";
 import { AuthRepositoryImpl } from "../data/repositories/auth.repository.impl";
 import { LoginUseCase } from "../domain/use-cases/login.use-case";
 import { RegisterUseCase } from "../domain/use-cases/register.use-case";
 
 /**
- * Factory function en lugar de singleton, ya que la instancia `db` de SQLite
- * se obtiene del contexto de React (useSQLiteContext) y debe inyectarse
- * en tiempo de ejecución desde los hooks de presentación.
+ * Instancias singleton para Auth usando Firebase Auth (remote data source).
+ * Al no depender de hooks de React (como useSQLiteContext), se instancian
+ * directamente en tiempo de carga siguiendo el mismo patrón que Products.
  */
-export const createAuthDependencies = (db: SQLiteDatabase) => {
-  // Data sources
-  const authLocalDataSource = new AuthLocalDataSourceImpl(db);
+// Data sources
+const authRemoteDataSource = new AuthRemoteDataSourceImpl();
 
-  // Repositories
-  const authRepository = new AuthRepositoryImpl(authLocalDataSource);
+// Repositories
+const authRepository = new AuthRepositoryImpl(authRemoteDataSource);
 
-  // Use Cases
-  const loginUseCase = new LoginUseCase(authRepository);
-  const registerUseCase = new RegisterUseCase(authRepository);
-
-  return { loginUseCase, registerUseCase };
-};
+// Use Cases
+export const loginUseCase = new LoginUseCase(authRepository);
+export const registerUseCase = new RegisterUseCase(authRepository);

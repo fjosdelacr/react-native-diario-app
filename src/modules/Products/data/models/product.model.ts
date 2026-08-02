@@ -1,5 +1,5 @@
 import { ProductEntity } from "../../domain/entities/product.entity";
-import { ProductDtoResponse } from "../dtos/product.dto";
+import { ProductDtoRequest, ProductDtoResponse } from "../dtos/product.dto";
 
 export class ProductModel implements ProductEntity {
   constructor(
@@ -16,9 +16,8 @@ export class ProductModel implements ProductEntity {
     return new ProductModel(product.title, product.description, product.id);
   }
 
-  toDTO(): ProductDtoResponse {
+  toDTO(): ProductDtoRequest {
     return {
-      id: this.id ?? "",
       title: this.title,
       description: this.description,
     };
