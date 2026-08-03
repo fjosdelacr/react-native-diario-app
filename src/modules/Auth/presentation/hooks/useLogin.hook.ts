@@ -30,7 +30,6 @@ export const useLogin = () => {
     setDataStates({ ...DATA_STATES_DEFAULT, isLoading: true });
     try {
       const result = await loginUseCase.execute(user.email, user.password);
-      console.log("login", result);
       if (result) {
         setDataStates({ ...DATA_STATES_DEFAULT, data: result });
         router.replace("/products");

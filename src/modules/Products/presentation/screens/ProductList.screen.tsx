@@ -4,9 +4,10 @@ import {
   ActivityIndicator,
   ListRenderItemInfo,
 } from "react-native";
+import Feather from "@expo/vector-icons/Feather";
 import { BackgroundView } from "@/core/components/BackgroundView.component";
 import { ProductCard } from "../components/ProductCard.component";
-import { ProductHeader } from "../components/ProductHeader.component";
+import { Header } from "../../../../core/components/Header.component";
 import { useProductList } from "../hooks/useProductList.hook";
 import { CustomModal } from "@/core/components/CustomModal.component";
 import { useThemeContext } from "@/core/contexts/theme.context";
@@ -49,7 +50,11 @@ export const ProductListScreen = () => {
   return (
     <>
       <BackgroundView>
-        <ProductHeader title="Mi Lista" onAddPress={handleAddPress} />
+        <Header
+          title="Mi Lista"
+          icon={{ name: "plus", component: Feather }}
+          onPress={handleAddPress}
+        />
         <FlatList
           data={dataStates.data}
           renderItem={renderItem}

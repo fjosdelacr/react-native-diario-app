@@ -1,9 +1,5 @@
-import { Text, View } from "react-native";
+import { SettingsScreen } from "@/modules/Settings/presentation/screens/Settings.screen";
 
 export default function Settings() {
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Hola Mundo</Text>
-    </View>
-  );
+  return <SettingsScreen />;
 }

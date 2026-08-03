@@ -5,7 +5,5 @@ import { Redirect } from "expo-router";
 export default function Index() {
   const currentUser = auth.currentUser;
 
-  console.log("currentUser", currentUser);
-
   return currentUser ? <Redirect href="/products" /> : <LoginScreen />;
 }

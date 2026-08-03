@@ -28,13 +28,11 @@ export const useRegister = () => {
     setDataStates({ ...DATA_STATES_DEFAULT, isLoading: true });
     try {
       const result = await registerUseCase.execute(user.email, user.password);
-      console.log("register", result);
       if (result) {
         setDataStates({ ...DATA_STATES_DEFAULT, data: result });
         router.navigate("/");
       }
     } catch (error) {
-      console.log("register error", error);
       setDataStates({ ...DATA_STATES_DEFAULT, isError: true });
     }
   };

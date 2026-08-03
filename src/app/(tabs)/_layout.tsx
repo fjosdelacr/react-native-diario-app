@@ -15,6 +15,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="products"
         options={{
+          tabBarLabel: "Productos",
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="list-outline" color={color} size={size} />
@@ -25,6 +26,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="settings"
         options={{
+          tabBarLabel: "Configuración",
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="settings-outline" color={color} size={size} />

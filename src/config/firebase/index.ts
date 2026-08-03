@@ -7,19 +7,11 @@ import {
   initializeAuth,
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-
-// Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyBlMpi0xQrmV9YZX6_jYaSBPEhIcoOnI40",
-  authDomain: "react-native-store-app-cbbb9.firebaseapp.com",
-  projectId: "react-native-store-app-cbbb9",
-  storageBucket: "react-native-store-app-cbbb9.firebasestorage.app",
-  messagingSenderId: "467097032603",
-  appId: "1:467097032603:web:265453504a8a5efcdcf33e",
-};
+import { getStorage } from "firebase/storage";
+import { getFirebaseConfig } from "./config";
 
 // Initialize Firebase app — singleton a nivel de aplicación
-export const app = initializeApp(firebaseConfig);
+export const app = initializeApp(getFirebaseConfig());
 
 /**
  * initializeAuth en lugar de getAuth para configurar la persistencia
@@ -35,3 +27,4 @@ export const auth = initializeAuth(app, {
 });
 
 export const firebaseDB = getFirestore(app);
+export const storage = getStorage(app);
